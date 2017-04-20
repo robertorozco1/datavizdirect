@@ -27,15 +27,15 @@
               //Can be easily adjusted within "if" statement condtions
               if (d[i].Town == townSelector.value && d[i].Gender == gender && d[i].Variable == "Median Age" && d[i].Race == "All" && d[i].Year == "2011-2015") {
                 var dataSeries =
-                [
+                {
                   /* Extra Object Data if desired
                   town : d[i].Town,
                   year : d[i].Year,
                   race : d[i].Race,
                   */
                   gender : d[i].Gender,
-                  y : d[i].Value,
-                ];
+                  y : +d[i].Value,
+                };
 
               }
             }
@@ -46,7 +46,6 @@
           var townselected1 = townSelector.value;
           var dsmale = getData("Male",townselected1);
           var dsfemale = getData("Female",townselected1);
-
           var chartConfig = {
             chart: {
                 type: 'column'
@@ -82,7 +81,7 @@
                 }
             },
             series: [{
-                data: dsmale,dsfemale
+                data: [dsmale.y,dsfemale.y]
 
             }],
           };
