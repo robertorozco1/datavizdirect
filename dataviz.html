@@ -29,10 +29,10 @@
       };
 
       townSelector.addEventListener("change", townselected, false);
-      
+
 //Current Issue: Unable to isolate rows in median-age-by-town.csv with
 //“Race/Ethnicity” value “All” using for loop
-      d3.csv("median-age-by-town.csv", function (d) {
+      d3.csv("median.csv", function (d) {
           for (i = 0; i < d.length; i++) {
             if (d[i].Town == "Bethel" && d[i].Gender == "Total" && d[i].Variable == "Median Age") {
               console.log(d[i]);
