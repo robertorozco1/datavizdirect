@@ -22,24 +22,46 @@
       }
       */
 
-      var townSelector = document.getElementById('town-selector');
+      /*var townSelector = document.getElementById('town-selector');
       function townselected() {
         console.log ("town selected",townSelector.value);
         makeChart();
-      };
+      };*/
 
-      townSelector.addEventListener("change", townselected, false);
+      //townSelector.addEventListener("change", townselected, false);
 
 //Current Issue: Unable to isolate rows in median-age-by-town.csv with
 //“Race/Ethnicity” value “All” using for loop
       d3.csv("median.csv", function (d) {
-          for (i = 0; i < d.length; i++) {
-            if (d[i].Town == "Bethel" && d[i].Gender == "Total" && d[i].Variable == "Median Age") {
-              console.log(d[i]);
-            }
-          };
-        debugger;
+          var townSelector = document.getElementById('town-selector');
+          townSelector.addEventListener("change", townselected, false);
+          var dataSeries;
+          function townselected() {
+            function getData(gender) {
+              for (i = 0; i < d.length; i++) {
+                if (d[i].Town == townSelector.value && d[i].Gender == gender && d[i].Variable == "Median Age" && d[i].Race == "All" && d[i].Year == "2011-2015") {
+                  dataSeries =
+                  {
+                    town : d[i].Town,
+                    year : d[i].Year,
+                    age : d[i].Value,
+                    race : d[i].Race,
+                    gender : d[i].Gender,
+                  };
 
+                }
+              }
+            }
+          /*
+          getData("Male");
+            console.log(dataSeries);
+            getData("Female");
+            console.log(dataSeries);
+            console.log ("town selected",townSelector.value);
+          };
+          */
+          var dsmale = getData("Male");
+          var dsfemale = getData("Female");
         function makeChart () {
           var townselected1 = townSelector.value;
 
@@ -78,7 +100,7 @@
               }
           },
           series: [{
-              data: [21,48]
+              data: [dsmale,dsfemale]
 
           }],
         };
@@ -86,9 +108,8 @@
         Highcharts.chart('container',chartConfig);
 
       };
-      makeChart();
       });
-
+makeChart();
 
 
 
