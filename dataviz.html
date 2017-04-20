@@ -37,21 +37,8 @@
           townSelector.addEventListener("change", townselected, false);
           var dataSeries;
           function townselected() {
-            function getData(gender) {
-              for (i = 0; i < d.length; i++) {
-                if (d[i].Town == townSelector.value && d[i].Gender == gender && d[i].Variable == "Median Age" && d[i].Race == "All" && d[i].Year == "2011-2015") {
-                  dataSeries =
-                  {
-                    town : d[i].Town,
-                    year : d[i].Year,
-                    age : d[i].Value,
-                    race : d[i].Race,
-                    gender : d[i].Gender,
-                  };
-
-                }
-              }
-            }
+            makeChart();
+          }
           /*
           getData("Male");
             console.log(dataSeries);
@@ -60,10 +47,26 @@
             console.log ("town selected",townSelector.value);
           };
           */
-          var dsmale = getData("Male");
-          var dsfemale = getData("Female");
+          function getData(gender,town) {
+            for (i = 0; i < d.length; i++) {
+              if (d[i].Town == townSelector.value && d[i].Gender == gender && d[i].Variable == "Median Age" && d[i].Race == "All" && d[i].Year == "2011-2015") {
+                dataSeries =
+                [
+                  /*town : d[i].Town,
+                  year : d[i].Year,
+                  race : d[i].Race,*/
+                  gender : d[i].Gender,
+                  y : d[i].Value,
+                ];
+
+              }
+            }
+            console.log(dataSeries);
+          }
         function makeChart () {
           var townselected1 = townSelector.value;
+          var dsmale = getData("Male",townselected1);
+          var dsfemale = getData("Female",townselected1);
 
           var chartConfig = {
           chart: {
@@ -100,7 +103,7 @@
               }
           },
           series: [{
-              data: [dsmale,dsfemale]
+              data: dsmale,dsfemale
 
           }],
         };
@@ -108,18 +111,18 @@
         Highcharts.chart('container',chartConfig);
 
       };
+
+
+
+
+
+
+
+
+
+
       });
-makeChart();
-
-
-
-
-
-
-
-
-
-      });
+  });
 
     </script>
 
