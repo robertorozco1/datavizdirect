@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript">
+    //var dataset = d3.csv("median-age-by-town.csv");
+
+    $(document).ready(function() {
+
+      // D3 CONVERT CSV TO JSON
+
+      /*
+      var dataSeries = {
+        "Bethel" : [
+          json["Bethel"]
+        ]
+      }
+      */
+
+      var townSelector = document.getElementById('town-selector');
+      function townselected() {
+        console.log ("town selected",townSelector.value);
+        makeChart();
+      };
+
+      townSelector.addEventListener("change", townselected, false);
+
+      d3.csv("median-age-by-town.csv", function (d) {
+          for (i = 0; i < d.length; i++) {
+            if (d[i].Town == "Bethel" && d[i].Gender == "Total" && d[i].Variable == "Median Age") {
+              console.log(d[i]);
+            }
+          };
+        debugger;
+
+        function makeChart () {
+          var townselected1 = townSelector.value;
+
+          var chartConfig = {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Average Age per Town: Male vs Female'
+          },
+          xAxis: {
+              categories: [
+                  'Male',
+                  'Female'
+              ],
+              crosshair: true
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Median Age'
+              }
+          },
+          tooltip: {
+               headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+               pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                   '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+               footerFormat: '</table>',
+               shared: true,
+               useHTML: true
+           },
+          plotOptions: {
+              column: {
+                  pointPadding: 0.2,
+                  borderWidth: 0
+              }
+          },
+          series: [{
+              data: [21,48]
+
+          }],
+        };
+
+        Highcharts.chart('container',chartConfig);
+
+      };
+      makeChart();
+      });
+
+
+
+
+
+
+
+
+
+
+      });
+
+    </script>
+
+  </head>
+  <body>
+    <select id="town-selector">
+      <option value="Bethel">Bethel</option>
+      <option value="Bridgeport">Bridgeport</option>
+      <option value="Brookfield">Brookfield</option>
+    </select>
+    <div id="container" style="width: 800px; height: 400px; margin: 0 auto">
+    </div>
+  </body>
+
+</html>
