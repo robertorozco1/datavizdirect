@@ -39,7 +39,7 @@
               }
             }
             console.log(dataSeries);
-            return dataSeries;
+            return dataSeries.y;
           }
         //Chart Gen function
         function makeChart () {
@@ -81,7 +81,11 @@
                 }
             },
             series: [{
-                data: [dsmale.y,dsfemale.y]
+                data:
+                [
+                  {y: dsmale, color: 'blue'},
+                  {y: dsfemale, color: 'pink'}
+                ]
 
             }],
           };
