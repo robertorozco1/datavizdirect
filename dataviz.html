@@ -12,15 +12,13 @@
 
     $(document).ready(function() {
 
-//Uses d3 to GET csv and conver it to JSON
+      //Uses d3 to GET csv and conver it to JSON
       d3.csv("median.csv", function (d) {
         //gets selected town from DOM and generates new Chart
           var townSelector = document.getElementById('town-selector')
           makeChart();
           townSelector.addEventListener("change", makeChart, false);
-        //  function townselected() {
-        //    makeChart();
-        //  }
+
           //gets data from 'median.csv',treated as JSON
           function getData(gender,town) {
             for (i = 0; i < d.length; i++) {
@@ -53,7 +51,7 @@
                 type: 'column'
             },
             title: {
-                text: 'Average Age per Town: Male vs Female'
+                text: 'Average Age per Town: Male vs Female for ' + townselected1
             },
             xAxis: {
                 categories: [
