@@ -12,86 +12,84 @@
 
     $(document).ready(function() {
 
-//Uses d3 to GET csv and conver it to JSON
-      d3.csv("median.csv", function (d) {
-        //gets selected town from DOM and generates new Chart
-          var townSelector = document.getElementById('town-selector');
-          townSelector.addEventListener("change", townselected, false);
-          function townselected() {
-            makeChart();
-          }
-          //gets data from 'median.csv',treated as JSON
-          function getData(gender,town) {
-            for (i = 0; i < d.length; i++) {
+      //gets selected town from DOM
+      var townSelector =  document.getElementById('town-selector');
+      townSelector.addEventListener("change", makeChart, false);
+
+
+        //Uses d3 to GET csv and conver it to JSON
+          d3.csv("median.csv", function(json) {
+            for (i = 0; i < json.length; i++) {
               //conditions for specific Querey of "Most Recent Town Median Age: Male vs Female"
               //Can be easily adjusted within "if" statement condtions
-              if (d[i].Town == townSelector.value && d[i].Gender == gender && d[i].Variable == "Median Age" && d[i].Race == "All" && d[i].Year == "2011-2015") {
-                var dataSeries =
+              if (json[i].Town == townSelector.value && json[i].Gender == "Male" && json[i].Variable == "Median Age" && json[i].Race == "All" && json[i].Year == "2011-2015")
+              {
+                var dsMale =
                 {
-                  /* Extra Object Data if desired
-                  town : d[i].Town,
-                  year : d[i].Year,
-                  race : d[i].Race,
-                  */
-                  gender : d[i].Gender,
-                  y : +d[i].Value,
+                  /* Extra Object Data if desired */
+                  town : json[i].Town,
+                  year : json[i].Year,
+                  race : json[i].Race,
+                  gender : json[i].Gender,
+                  y : +json[i].Value,
                 };
-
-              }
-            }
+                debugger;
+              };
+            };
             console.log(dataSeries);
-            return dataSeries;
-          }
-        //Chart Gen function
-        function makeChart () {
-          var townselected1 = townSelector.value;
-          var dsmale = getData("Male",townselected1);
-          var dsfemale = getData("Female",townselected1);
-          var chartConfig = {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Average Age per Town: Male vs Female'
-            },
-            xAxis: {
-                categories: [
-                    'Male',
-                    'Female'
-                ],
-                crosshair: true
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Median Age'
-                }
-            },
-            tooltip: {
-                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                     '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-                 footerFormat: '</table>',
-                 shared: true,
-                 useHTML: true
-             },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                data: [dsmale.y,dsfemale.y]
+            return dsMale;
+          });
 
-            }],
+        var dsmale = getData("Male",townSelector);
+        var dsfemale = getData("Female",townSelector);
+          //Chart Gen function (Calls getData method and var townSelector)
+          function makeChart (townSelector) {
+            //debugger;
+            var chartConfig = {
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: 'Average Age per Town: Male vs Female'
+              },
+              xAxis: {
+                  categories: [
+                      'Male',
+                      'Female'
+                  ],
+                  crosshair: true
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Median Age'
+                  }
+              },
+              tooltip: {
+                   headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                   pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                       '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                   footerFormat: '</table>',
+                   shared: true,
+                   useHTML: true
+               },
+              plotOptions: {
+                  column: {
+                      pointPadding: 0.2,
+                      borderWidth: 0
+                  }
+              },
+              series: [{
+                  data: [dsmale.y,dsfemale.y]
+
+              }],
+            };
+            Highcharts.chart('container',chartConfig);
           };
 
-        Highcharts.chart('container',chartConfig);
+          makeChart(townSelector);
+        });
 
-      };
-    });
-  });
 
     </script>
 
