@@ -37,6 +37,7 @@
               };
             };
             console.log(dataSeries);
+<<<<<<< HEAD
             return dsMale;
           });
 
@@ -81,6 +82,50 @@
               },
               series: [{
                   data: [dsmale.y,dsfemale.y]
+=======
+          }
+        //Chart Gen function
+        function makeChart () {
+          var townselected1 = townSelector.value;
+          var dsmale = getData("Male",townselected1);
+          var dsfemale = getData("Female",townselected1);
+          var chartConfig = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Average Age per Town: Male vs Female'
+            },
+            xAxis: {
+                categories: [
+                    'Male',
+                    'Female'
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Median Age'
+                }
+            },
+            tooltip: {
+                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                     '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                 footerFormat: '</table>',
+                 shared: true,
+                 useHTML: true
+             },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                data: [dsmale.y,dsfemale.y]
+>>>>>>> parent of b3b8995... Forgot to Add this one
 
               }],
             };
