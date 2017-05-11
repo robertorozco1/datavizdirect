@@ -14,18 +14,21 @@
       var townSelector = document.getElementById('town-selector')
       //Uses d3 to GET csv and conver it to JSON
       d3.csv("median.csv", function (d) {
-
+          //Method to Create a list of town names, sort, and filter
           function addtowns() {
             var townnames = [];
+            //Load Town Names
             for (i = 0; i < d.length; i++) {
               townnames.push(d[i].Town);
             };
             function uniq(a) {
+                //Remove Repeat Names
                 return a.sort().filter(function(item, pos, ary) {
                     return !pos || item != ary[pos - 1];
                 });
             };
             var uniqueNames = uniq(townnames);
+            //Add town names from CSV File to townSelector
             for (i = 0; i <uniqueNames.length; i++) {
               var townoption = document.createElement("option");
               townoption.text=uniqueNames[i];
@@ -34,8 +37,7 @@
             };
           };
           addtowns();
-          debugger;
-        //gets selected town from DOM and generates new Chart
+          //gets selected town from DOM and generates new Chart
           makeChart();
           townSelector.addEventListener("change", makeChart, false);
 
