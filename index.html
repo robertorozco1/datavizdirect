@@ -11,11 +11,31 @@
     //var dataset = d3.csv("median-age-by-town.csv");
 
     $(document).ready(function() {
-
+      var townSelector = document.getElementById('town-selector')
       //Uses d3 to GET csv and conver it to JSON
       d3.csv("median.csv", function (d) {
+
+          function addtowns() {
+            var townnames = [];
+            for (i = 0; i < d.length; i++) {
+              townnames.push(d[i].Town);
+            };
+            function uniq(a) {
+                return a.sort().filter(function(item, pos, ary) {
+                    return !pos || item != ary[pos - 1];
+                });
+            };
+            var uniqueNames = uniq(townnames);
+            for (i = 0; i <uniqueNames.length; i++) {
+              var townoption = document.createElement("option");
+              townoption.text=uniqueNames[i];
+              townoption.value=uniqueNames[i];
+              townSelector.add(townoption);
+            };
+          };
+          addtowns();
+          debugger;
         //gets selected town from DOM and generates new Chart
-          var townSelector = document.getElementById('town-selector')
           makeChart();
           townSelector.addEventListener("change", makeChart, false);
 
